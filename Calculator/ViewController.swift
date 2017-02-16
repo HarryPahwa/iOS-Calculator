@@ -9,17 +9,33 @@
 import UIKit
 
 class ViewController: UIViewController {
-
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        // Do any additional setup after loading the view, typically from a nib.
+    
+    @IBOutlet weak var calcDisplay: UILabel!
+    
+    var typing = false
+    
+    @IBAction func touchDigit(_ sender: UIButton) {
+        if typing{
+            calcDisplay.text=calcDisplay.text!+sender.currentTitle!
+        }
+        else {
+            calcDisplay.text=sender.currentTitle!
+            typing=true
+        }
     }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
+    
+    var dispValue : Double {
+        get {
+            return Double(calcDisplay.text!)!
+        }
+        set {
+            calcDisplay.text=String(newValue)
+        }
     }
-
-
+    
+    @IBAction func performOperation(_ sender: UIButton) {
+    }
+    
+    
 }
 
