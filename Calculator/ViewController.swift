@@ -10,13 +10,21 @@ import UIKit
 
 class ViewController: UIViewController {
     
+    @IBOutlet weak var decimalButton: UIButton!
     @IBOutlet weak var calcDisplay: UILabel!
     
     var typing = false
+    var decimal = false
     
     @IBAction func touchDigit(_ sender: UIButton) {
         if typing{
-            calcDisplay.text=calcDisplay.text!+sender.currentTitle!
+            if sender.currentTitle! != "." {
+                calcDisplay.text=calcDisplay.text!+sender.currentTitle!
+            } else if sender.currentTitle! == "." && !decimal {
+                calcDisplay.text=calcDisplay.text!+sender.currentTitle!
+                decimal=true
+                decimalButton!.isEnabled=false
+            }
         }
         else {
             calcDisplay.text=sender.currentTitle!
@@ -33,7 +41,21 @@ class ViewController: UIViewController {
         }
     }
     
+    var brain = CalculatorBrain()
+    
     @IBAction func performOperation(_ sender: UIButton) {
+        decimal=false
+        decimalButton!.isEnabled=true
+        if typing{
+            brain.setOperand(dispValue)
+            typing = false
+        }
+        if let symbol=sender.currentTitle{
+            brain.performFunction(symbol)
+        }
+        if let result=brain.result {
+            dispValue=result
+        }
     }
     
     
