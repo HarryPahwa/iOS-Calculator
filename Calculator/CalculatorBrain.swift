@@ -33,7 +33,11 @@ struct CalculatorBrain {
         
     ]
     
-    
+    mutating func clear(){
+        retVal=nil
+        opSelected=nil
+        
+    }
     mutating func setOperand(_ operand: Double){
         retVal=operand
     }
@@ -43,6 +47,8 @@ struct CalculatorBrain {
             return retVal
         }
     }
+    
+
     
     private struct PendingBinaryOperation{
         let function: (Double, Double) -> Double
@@ -60,9 +66,11 @@ struct CalculatorBrain {
             switch choice{
             case .constant(let value):
                 retVal = value
+                
             case .unaryOperation(let function):
                 if retVal != nil {
                     retVal = function(retVal!)
+                    
                 }
             case .binaryOperation(let function):
                 opSelected=PendingBinaryOperation(function: function, firstOperand: retVal!)
